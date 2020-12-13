@@ -4,11 +4,15 @@ import AddOption from './AddOption';
 import Header from './Header';
 import Action from './Action';
 import Options from './Options';
+import OptionModal from './OptionModal';
 
+
+// yarn run dev-server
 export default class IndecisionApp extends React.Component {
 
     state = {
-        options: []
+        options: [],
+        selectedOption: undefined
     };
 
     // babel babel-plugin-transform-class-properties plugin helps to remove bindings
@@ -64,7 +68,11 @@ export default class IndecisionApp extends React.Component {
 
     handlePick = () => {
         const index = Math.floor(Math.random() * (this.state.options.length))
-        alert('random options: ' + this.state.options[index])
+        const option = this.state.options[index];
+
+        this.setState(() => ({selectedOption: option}))
+
+        // alert('random options: ' + this.state.options[index])
     }
 
     handleAddOption = (option) => {
@@ -85,6 +93,10 @@ export default class IndecisionApp extends React.Component {
         // })
     }
 
+    handleClearSelectedOption = () => {
+        this.setState(() => ({selectedOption: undefined}))
+    }
+
     render() {
         const title = "Indecision";
         const subtitle = 'Put your life in the hands of a computer';
@@ -103,6 +115,7 @@ export default class IndecisionApp extends React.Component {
                     handleDeleteOption={this.handleDeleteOption}
                 />
                 <AddOption handleAddOption={this.handleAddOption} />
+                <OptionModal selectedOption={this.state.selectedOption} handleClearSelectedOption={this.handleClearSelectedOption} />
             </div>
         )
     }
